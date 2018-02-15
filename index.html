@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Phaser - Making my first game</title>
    <script src="//cdn.jsdelivr.net/phaser/2.2.2/phaser.min.js"></script>
+	 <link rel="stylesheet" href="style.css"/>
+
     <style type="text/css">
         body {
 					background-color: black;
@@ -16,7 +19,9 @@
 </head>
 <body>
 
-<script type="text/javascript">
+	<div id="gameplay">
+
+		<script type="text/javascript">
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
@@ -29,6 +34,10 @@ function preload() {
 	game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 
 }
+
+// first, we need to see when the game start and when it's over
+var GAME_START = false;
+var GAME_OVER = false;
 
 var player;
 var platforms;
@@ -156,6 +165,8 @@ function collectStar (player, star) {
 }
 
 </script>
+
+</div>
 
 </body>
 </html>
