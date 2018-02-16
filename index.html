@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Phaser - Making my first game</title>
    <script src="//cdn.jsdelivr.net/phaser/2.2.2/phaser.min.js"></script>
-	 <link rel="stylesheet" href="style.css"/>
+	 <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 
 <body>
@@ -14,15 +14,17 @@
 
 		<script type="text/javascript">
 
-var game = new Phaser.Game(960, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(2048, 894, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
 
 	// here we call all the pics we need to use them
-	game.load.image('sky', 'assets/sky.png');
-	game.load.image('ground', 'assets/platform.png');
-	game.load.image('star', 'assets/star.png');
-	game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+	this.game.load.image('mountain', 'assets/img/mountain.png');
+	this.game.load.image('mountain2', 'assets/img/mountain2.png');
+	this.game.load.image('mountain3', 'assets/img/mountain3.png');
+	this.game.load.image('ground', 'assets/img/platform.png');
+	this.game.load.image('star', 'assets/img/star.png');
+	this.game.load.spritesheet('dude', 'assets/img/dude.png', 32, 48);
 
 }
 
@@ -39,10 +41,32 @@ var scoreText;
 
 function create() {
 
-    //  We're going to be using physics, so enable the Arcade Physics system
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    //  Enable Arcade Physics
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    game.add.sprite(0, 0, 'sky'); // background
+		// Set the game background color
+		this.game.stage.backgroundColor = '#cceeff';
+
+		this.mountain = this.game.add.tileSprite(0,
+        this.game.height - this.game.cache.getImage('mountain').height,
+        this.game.width,
+        this.game.cache.getImage('mountain').height,
+        'mountain'
+    );
+
+    this.mountain2 = this.game.add.tileSprite(0,
+        this.game.height - this.game.cache.getImage('mountain2').height,
+        this.game.width,
+        this.game.cache.getImage('mountain2').height,
+        'mountain2'
+    );
+
+    this.mountain2 = this.game.add.tileSprite(0,
+        this.game.height - this.game.cache.getImage('mountain3').height,
+        this.game.width,
+        this.game.cache.getImage('mountain3').height,
+        'mountain3'
+    );
 
 
     platforms = game.add.group(); // two ledges
@@ -72,7 +96,7 @@ function create() {
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 500;
     player.body.collideWorldBounds = true;
 
     //  Our two animations, walking left and right.
@@ -107,6 +131,11 @@ function create() {
 }
 
 function update() {
+
+	  // PARALLAX
+	  this.mountain.tilePosition.x -= 0.05;
+     this.mountain2.tilePosition.x -= 0.3;
+     this.mountain2.tilePosition.x -= 0.4;
 
     //  Collide the player and the stars with the platforms
     var hitPlatform = game.physics.arcade.collide(player, platforms);
