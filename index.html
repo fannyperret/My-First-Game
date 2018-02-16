@@ -76,7 +76,7 @@ function create() {
     // Here we create the ground (position & height)
     var ground = platforms.create(0, game.world.height - 64, 'ground');
 
-    ground.scale.setTo(2, 2); // multiplicate the sprite ground
+    ground.scale.setTo(4, 4); // multiplicate the sprite ground
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
@@ -96,7 +96,7 @@ function create() {
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.2;
-    player.body.gravity.y = 500;
+    player.body.gravity.y = 600;
     player.body.collideWorldBounds = true;
 
     //  Our two animations, walking left and right.
@@ -150,13 +150,13 @@ function update() {
     if (cursors.left.isDown)
     {
         //  Move to the left
-        player.body.velocity.x = -150;
+        player.body.velocity.x = -250;
         player.animations.play('left');
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
-        player.body.velocity.x = 150;
+        player.body.velocity.x = 250;
         player.animations.play('right');
     }
     else
@@ -179,7 +179,7 @@ function collectStar (player, star) {
     // Removes the star from the screen when the character touch them
     star.kill();
     //  Add and update the score
-    score += 50;
+    score += 15;
     scoreText.text = 'Score: ' + score;
 
 }
