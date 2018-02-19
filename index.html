@@ -14,7 +14,32 @@
 
 		<script type="text/javascript">
 
-var game = new Phaser.Game(1200, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'parallax', {
+	preload: preload,
+	create: create,
+	update: update
+});
+
+var player;
+var playerOldPos = {
+	x: 0,
+	y: 0
+};
+
+var parallax1;
+var parallax2;
+var parallax3;
+
+// first, we need to see when the game start and when it's over
+var GAME_START = false;
+var GAME_OVER = false;
+
+
+var platforms;
+var cursors;
+var stars;
+var score = 0;
+var scoreText;
 
 function preload() {
 
@@ -24,20 +49,11 @@ function preload() {
 	this.game.load.image('mountain3', 'assets/img/mountain3.png');
 	this.game.load.image('ground', 'assets/img/platform.png');
 	this.game.load.image('star', 'assets/img/star.png');
+	// player
 	this.game.load.spritesheet('dude', 'assets/img/dude.png', 32, 48);
-
 }
 
-// first, we need to see when the game start and when it's over
-var GAME_START = false;
-var GAME_OVER = false;
 
-var player;
-var platforms;
-var cursors;
-var stars;
-var score = 0;
-var scoreText;
 
 function create() {
 
