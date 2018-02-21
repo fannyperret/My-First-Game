@@ -4,7 +4,8 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Phaser - Making my first game</title>
-   <script src="//cdn.jsdelivr.net/phaser/2.2.2/phaser.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+   <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.10.0"></script>
 	 <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 
@@ -20,40 +21,28 @@ var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'parallax', {
 	update: update
 });
 
-var player;
-var playerOldPos = {
-	x: 0,
-	y: 0
-};
-
-var parallax1;
-var parallax2;
-var parallax3;
-
-// first, we need to see when the game start and when it's over
-var GAME_START = false;
-var GAME_OVER = false;
-
-
-var platforms;
-var cursors;
-var stars;
-var score = 0;
-var scoreText;
-
 function preload() {
 
 	// here we call all the pics we need to use them
 	this.game.load.image('mountain', 'assets/img/mountain.png');
 	this.game.load.image('mountain2', 'assets/img/mountain2.png');
 	this.game.load.image('mountain3', 'assets/img/mountain3.png');
-	this.game.load.image('ground', 'assets/img/platform.png');
+	this.game.load.image('grass', 'assets/img/grass.png');
 	this.game.load.image('star', 'assets/img/star.png');
-	// player
-	this.game.load.spritesheet('dude', 'assets/img/dude.png', 32, 48);
+	this.game.load.spritesheet('blue-dude', 'assets/img/blue-dude.png', 512, 512);
+
 }
 
+// first, we need to see when the game start and when it's over
+var GAME_START = false;
+var GAME_OVER = false;
 
+var player;
+var platforms;
+var cursors;
+var stars;
+var score = 0;
+var scoreText;
 
 function create() {
 
@@ -90,22 +79,25 @@ function create() {
     platforms.enableBody = true; // enable physics for any object is created in this group
 
     // Here we create the ground (position & height)
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    var ground = platforms.create(0, game.world.height - 64, 'grass');
 
-    ground.scale.setTo(4, 4); // multiplicate the sprite ground
+    ground.scale.setTo(40, 40); // multiplicate the sprite ground
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
 
     //  Now let's create two ledges
-    var ledge = platforms.create(400, 400, 'ground');
+    var ledge = platforms.create(400, 400, 'grass');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(-150, 250, 'ground');
+    ledge = platforms.create(-150, 250, 'grass');
     ledge.body.immovable = true;
 
     // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32, game.world.height - 150, 'blue-dude');
+		player.scale.setTo(0.3);
+
+
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player);
@@ -116,8 +108,8 @@ function create() {
     player.body.collideWorldBounds = true;
 
     //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    player.animations.add('left', [0, 1, 2, 4, 5], 10, true);
+    player.animations.add('right', [0, 1, 2, 4, 5, 6, 7], 10, true);
 
     //  Finally some stars to collect
     stars = game.add.group();
@@ -126,10 +118,10 @@ function create() {
     stars.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
+    for (var i = 0; i < 5; i++)
     {
         //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
+        var star = stars.create(i * 70, 90, 'star');
 
         //  Let gravity do its thing
         star.body.gravity.y = 300;
@@ -139,7 +131,7 @@ function create() {
     }
 
     //  The score
-    scoreText = game.add.text(50, 30, 'Score: 0', { font: '50px Arial', fill: 'white' });
+    scoreText = game.add.text(50, 30, 'Score: 0', { font: '30pt Arial', fill: 'white' });
 
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
@@ -150,8 +142,8 @@ function update() {
 
 	  // PARALLAX
 	  this.mountain.tilePosition.x -= 0.05;
-     this.mountain2.tilePosition.x -= 0.3;
-     this.mountain2.tilePosition.x -= 0.4;
+    this.mountain2.tilePosition.x -= 0.3;
+    this.mountain2.tilePosition.x -= 0.3;
 
     //  Collide the player and the stars with the platforms
     var hitPlatform = game.physics.arcade.collide(player, platforms);
@@ -179,7 +171,7 @@ function update() {
     {
         //  Stand still
         player.animations.stop();
-        player.frame = 4;
+        player.frame = 6;
     }
 
     //  Allow the player to jump if he is touching ground.
