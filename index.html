@@ -15,7 +15,8 @@
 
 		<script type="text/javascript">
 
-var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'parallax', {
+// main.js //
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'parallax', {
 	preload: preload,
 	create: create,
 	update: update
@@ -28,7 +29,7 @@ function preload() {
 	this.game.load.image('mountain2', 'assets/img/mountain2.png');
 	this.game.load.image('mountain3', 'assets/img/mountain3.png');
 	this.game.load.image('grass', 'assets/img/grass.png');
-	this.game.load.image('star', 'assets/img/star.png');
+	this.game.load.image('star', 'assets/img/star.png', );
 	this.game.load.spritesheet('blue-dude', 'assets/img/blue-dude.png', 512, 510);
 
 }
